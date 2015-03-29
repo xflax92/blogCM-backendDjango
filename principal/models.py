@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from CM.settings import MEDIA_ROOT
 import random
 import string
+from datetime import date, datetime
 # Create your models here.
 categorias=[('Moviles','Moviles'),('Portatiles','Portatiles'),('Tablets','Tablets'),('Videojuegos','Videojuegos'),('Accesorios','Accesorios')]
 tags=[('Android','Android'),('Apple','Apple'),('Microsoft','Microsoft'),('Samsung','Samsung'),('Google','Google'),('Nintendo','Nintendo'),('Intel','Intel'),('PC','PC'),('Ipad','Ipad')]
@@ -48,6 +49,7 @@ class Categoria(models.Model):
         return self.nombre
 
 class Noticia(models.Model):
+    fecha=models.DateTimeField(default=datetime.date.now())
     titulo=models.CharField(max_length=100, unique=True)
     resumen=models.CharField(max_length=240, blank=True)
     texto=models.CharField(max_length=4000)
