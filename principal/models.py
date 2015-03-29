@@ -49,7 +49,7 @@ class Categoria(models.Model):
         return self.nombre
 
 class Noticia(models.Model):
-    fecha=models.DateTimeField(default=datetime.date.now())
+    fecha=models.DateTimeField()
     titulo=models.CharField(max_length=100, unique=True)
     resumen=models.CharField(max_length=240, blank=True)
     texto=models.CharField(max_length=4000)
