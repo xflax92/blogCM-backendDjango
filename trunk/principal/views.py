@@ -9,10 +9,14 @@ import json
 from django.contrib.auth import login, authenticate
 #importamos formulario
 from .forms import UserForm
+from principal.models import Categoria
+from django.http.response import HttpResponse, HttpResponseBadRequest,\
+    HttpResponseNotFound
 
 # Create your views here.
 def rest_get_noticias(request):
     noticias=list(Noticia.objects.values()) #creamos lista con todos los objetos Noticia
+    print JsonResponse(noticias, safe=False)
     return JsonResponse(noticias, safe=False) #lo devolvemos como Json por defecto pero podemos crear el nuestro propio mas adelante
 
 #AUN POR HACER
@@ -74,12 +78,28 @@ def rest_autores_id(request, id_a):
         return JsonResponse(autores, safe=False)
 
 
-def rest_categoria(request, categoria_nombre):
+def rest_categoria(request, categoria_nombre): #CHEQUEAR DEVOLVER JSON VACIO Y EL CODIGO CORRESPONDIENTE
     if request.method=='GET':
-        noticias=list(Noticia.objects.values().filter(categoria__nombre=categoria_nombre.capitalize()))
-        return JsonResponse(noticias, safe=False)
+        if Categoria.objects.filter(nombre=categoria_nombre.capitalize()): 
+            noticias=list(Noticia.objects.values().filter(categoria__nombre=categoria_nombre.capitalize()))
+            i=0
+            for e in noticias:
+                i+=1
+                print "======Noticia "+str(i)+"==========="
+                print e
+            if len(noticias)==0:
+                return HttpResponseNotFound() #La categoria existe pero no tiene ninguna noticia
+            return JsonResponse(noticias, safe=False) #Peticion correcta devolvemos codigo 200 ok y devolvemos los datos del servidor
+        else:
+            return HttpResponseBadRequest() #La categoria no existe devolvemos error 404
 
 def rest_tag(request, tag):
     if request.method=='GET':
         noticias=list(Noticia.objects.values().filter(tags__nombre=tag.capitalize()))
         return JsonResponse(noticias, safe=False)
+
+def rest_devuelve_categorias(request):
+    if request.method=="GET":
+        categorias=list(Categoria.objects.values().all())
+        print JsonResponse(categorias, safe=False)
+        return JsonResponse(categorias, safe=False)
