@@ -5,7 +5,7 @@ Created on 25/12/2014
 '''
 from django.conf.urls import patterns, url
 from principal import views
-from .views import rest_get_noticias, rest_post_noticia, rest_post_login, rest_post_registro, rest_autores, rest_categoria, rest_tag
+from .views import rest_get_noticias, rest_post_noticia, rest_post_login, rest_post_registro, rest_autores, rest_categoria, rest_tag, rest_devuelve_categorias
 from principal.views import rest_autores_id
 
 urlpatterns = patterns ('' ,
@@ -17,5 +17,6 @@ urlpatterns = patterns ('' ,
     url(r'^autor/(?P<id_a>\d+)/$', rest_autores_id),
     url(r'^noticias/categoria/(?P<categoria_nombre>\w+)/$', rest_categoria),
     url(r'^noticias/tags/(?P<tag>\w+)/$', rest_tag),
+    url(r'^categorias/$', rest_devuelve_categorias, name="rest_devuelve_categorias"),
     
 )
