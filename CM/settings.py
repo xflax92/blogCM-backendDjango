@@ -84,5 +84,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #ADD por mi 
-MEDIA_ROOT='/home/fla2727/trabajo-cm/cm/CM/static/' # seguardaran en esa carpeta y para visualizar en el template --> data-wgo="{% static 'sgf/kymco-ersev.sgf' %}"
+MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 MEDIA_URL='/media/' # para descargar un sgf --> http://127.0.0.1:8000/media/ersev-butsimple

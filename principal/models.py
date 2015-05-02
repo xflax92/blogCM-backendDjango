@@ -4,6 +4,7 @@ from CM.settings import MEDIA_ROOT
 import random
 import string
 from datetime import date, datetime
+from django.forms.widgets import Widget, Textarea
 # Create your models here.
 categorias=[('Moviles','Moviles'),('Portatiles','Portatiles'),('Tablets','Tablets'),('Videojuegos','Videojuegos'),('Accesorios','Accesorios')]
 tags=[('Android','Android'),('Apple','Apple'),('Microsoft','Microsoft'),('Samsung','Samsung'),('Google','Google'),('Nintendo','Nintendo'),('Intel','Intel'),('PC','PC'),('Ipad','Ipad')]
@@ -52,12 +53,21 @@ class Noticia(models.Model):
     fecha=models.DateTimeField()
     titulo=models.CharField(max_length=100, unique=True)
     resumen=models.CharField(max_length=240, blank=True)
-    texto=models.CharField(max_length=4000)
+    texto=models.TextField()
     autor=models.ForeignKey(Autor)
     categoria=models.ForeignKey(Categoria, blank=True)
     tags=models.ManyToManyField(Tag, blank=True)
+    foto_principal=models.ImageField( blank=True, upload_to='imagenes', default="")
+    path_principal = models.CharField(max_length=70, default='', blank=True)
+    
     def __unicode__(self):
         return self.titulo+" - "+self.resumen#+" - "+self.autor.user.first_name
+   
+    
+    def save(self, *args, **kwargs):
+        nombre=self.foto_principal.name.split('/')
+        self.path_principal="imagenes/"+nombre[len(nombre)-1]
+        super(Noticia, self).save(*args, **kwargs)
     
 class Puntuacion(models.Model):
     nota=models.IntegerField(choices=[(1,1),(2,2),(3,3),(4,4),(5,5)])
