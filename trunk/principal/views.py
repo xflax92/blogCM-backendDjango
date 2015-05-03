@@ -14,7 +14,7 @@ from django.http.response import HttpResponse, HttpResponseBadRequest,\
     HttpResponseNotFound
 
 # Create your views here.
-def rest_get_noticias(request):
+def rest_get_noticias(request): #DEVOLVEMOS TODAS LAS NOTICIAS
     #noticias=list(Noticia.objects.values()) #creamos lista con todos los objetos Noticia
     #print JsonResponse(noticias, safe=False)
     #return JsonResponse(noticias, safe=False) #lo devolvemos como Json por defecto pero podemos crear el nuestro propio mas adelante
@@ -22,7 +22,7 @@ def rest_get_noticias(request):
     lista_noticias = []
     for n in noticias:
         dic_n={}
-        dic_n["categoria_id"]=n.categoria.id
+        dic_n["categoria_id"]=n.categoria.nombre.lower()
         dic_n["fecha"]=n.fecha
         dic_n["texto"]=n.texto
         dic_n["autor"]=n.autor.user.first_name+" "+n.autor.user.last_name
@@ -34,7 +34,7 @@ def rest_get_noticias(request):
     print JsonResponse(lista_noticias, safe=False)
     return JsonResponse(lista_noticias, safe=False)
     
-def rest_categoria(request, categoria_nombre): #CHEQUEAR DEVOLVER JSON VACIO Y EL CODIGO CORRESPONDIENTE
+def rest_categoria(request, categoria_nombre): #DEVOLVEMOS NOTICIAS FILTRADAS POR CATEGORIAS
     if request.method=='GET':
         if Categoria.objects.filter(nombre=categoria_nombre.capitalize()): 
             """
@@ -52,7 +52,7 @@ def rest_categoria(request, categoria_nombre): #CHEQUEAR DEVOLVER JSON VACIO Y E
             lista_noticias = []
             for n in noticias:
                 dic_n={}
-                dic_n["categoria_id"]=n.categoria.id
+                dic_n["categoria_id"]=n.categoria.nombre.lower()
                 dic_n["fecha"]=n.fecha
                 dic_n["texto"]=n.texto
                 dic_n["autor"]=n.autor.user.first_name+" "+n.autor.user.last_name
@@ -68,11 +68,19 @@ def rest_categoria(request, categoria_nombre): #CHEQUEAR DEVOLVER JSON VACIO Y E
         else:
             return HttpResponseBadRequest() #La categoria no existe devolvemos error 404
 
-def rest_devuelve_categorias(request):
+def rest_devuelve_categorias(request): #DEVOLVEMOS CATEGORIAS EXISTENTES
     if request.method=="GET":
         categorias=list(Categoria.objects.values().all())
         print JsonResponse(categorias, safe=False)
         return JsonResponse(categorias, safe=False)
+
+def rest_noticia(request, categoria_nombre, id_noticia):
+    if request.method=="GET":
+        print "ENTRO"
+        n = list(Noticia.objects.values().filter(id=id_noticia, categoria__nombre=categoria_nombre.capitalize()))
+        return JsonResponse(n, safe=False)
+        
+    
 
 """
 #Otras pruebas

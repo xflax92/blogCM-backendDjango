@@ -5,12 +5,13 @@ Created on 25/12/2014
 '''
 from django.conf.urls import patterns, url
 from principal import views
-from .views import rest_get_noticias, rest_categoria, rest_devuelve_categorias
+from .views import rest_get_noticias, rest_categoria, rest_devuelve_categorias, rest_noticia
 
 urlpatterns = patterns ('' ,
+    url(r'^categorias/$', rest_devuelve_categorias, name="rest_devuelve_categorias"),
     url(r'^noticias/$', rest_get_noticias, name='rest_get_noticias'),
-    url(r'^noticias/categoria/(?P<categoria_nombre>\w+)/$', rest_categoria),
-    url(r'^categorias/$', rest_devuelve_categorias, name="rest_devuelve_categorias")   
+    url(r'^noticias/(?P<categoria_nombre>\w+)/$', rest_categoria),
+    url(r'^noticias/(?P<categoria_nombre>\w+)/(?P<id_noticia>\d+)/$', rest_noticia, name="rest_noticia")
 )
 
 """

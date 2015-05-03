@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'principal',
+    'web',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -86,3 +87,5 @@ STATIC_URL = '/static/'
 #ADD por mi 
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 MEDIA_URL='/media/' # para descargar un sgf --> http://127.0.0.1:8000/media/ersev-butsimple
+
+
