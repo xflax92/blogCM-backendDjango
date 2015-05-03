@@ -1,0 +1,18 @@
+{% extends "base.html" %} 
+{% block principal %} 
+	{% for n in noticias %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<a href="/web/noticias/{{n.categoria}}/{{n.id}}">{{n.titulo}}</a>
+			</h3>
+		</div>
+		<div class="panel-body">
+			{%if n.foto_principal %} <img src="/media/{{n.path_principal}}"  class="img-responsive" alt="Responsive image">
+			{%endif%}
+			<p>{{n.resumen}}</p>
+			<a href="/web/noticias/{{n.categoria}}/{{n.id}}" class="btn btn-primary" role="button">Ver mas</a>
+		</div>
+	</div>
+	{%endfor%} 
+{%endblock principal%}

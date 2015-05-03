@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'CM.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+    url(r'^web/', include('web.urls')),
     url(r'^api/', include('principal.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )+ static(MEDIA_URL, document_root=MEDIA_ROOT)

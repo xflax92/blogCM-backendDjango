@@ -1,0 +1,20 @@
+{% extends "base.html" %} 
+{% block principal %} 
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h2>{{n.titulo}}</h2>
+	</div>
+	<div class="panel-body">
+		<img src="/media/{{n.path_principal}}"  class="img-responsive" alt="Responsive image">
+		<br>
+		<h4 class="bg-success">{{n.resumen}}</h4>
+		<p class="lead">{{n.texto}}</p>
+	</div>
+	<div class="panel-footer">
+		{{n.autor.user.first_name}} {{n.autor.user.last_name}} - {{n.fecha}}
+	</div>
+</div>
+
+
+{%endblock principal%}
